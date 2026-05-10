@@ -27,6 +27,7 @@ def add_issue():
 # ----------------------
 # Fetch issues (optionally by category)
 # ----------------------
+@issues_bp.route("", methods=["GET"])
 @issues_bp.route("/", methods=["GET"])
 def fetch_issues():
     # Get category_id as integer from query string

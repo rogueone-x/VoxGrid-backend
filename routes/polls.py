@@ -23,10 +23,17 @@ def fetch_poll_by_issue():
     if not issue_id:
         return jsonify({"error": "issue_id is required"}), 400
 
+    # fetch poll
     poll = get_poll_by_issue(issue_id)
 
     if not poll:
         return jsonify({"error": "Poll not found"}), 404
+
+    # fetch options
+    options = get_poll_options(poll["id"])
+
+    # attach options
+    poll["options"] = options
 
     return jsonify(poll)
 
