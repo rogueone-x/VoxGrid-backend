@@ -4,6 +4,7 @@ from models.comment_model import get_comments_by_discussion, create_comment
 comments_bp = Blueprint("comments", __name__)
 
 
+@comments_bp.route("", methods=["GET"])
 @comments_bp.route("/", methods=["GET"])
 def fetch_comments():
     discussion_id = request.args.get("discussion_id")
@@ -16,6 +17,7 @@ def fetch_comments():
     return jsonify(comments)
 
 
+@comments_bp.route("", methods=["POST"])
 @comments_bp.route("/", methods=["POST"])
 def add_comment():
     data = request.json

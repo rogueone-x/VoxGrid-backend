@@ -6,5 +6,5 @@ def db_connector():
         user="root",
         host="localhost",
         password="1234567890",
-        database="voxgrid",
+        database="vox_grid",
     )

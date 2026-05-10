@@ -21,7 +21,7 @@ def create_issue(title, summary, category_id):
     return issue_id
 
 
-def get_all_issues(category=None, sort=None):
+def get_all_issues(category_id=None, sort=None):
     con = db_connector()
     cursor = con.cursor(dictionary=True)
 
@@ -30,26 +30,22 @@ def get_all_issues(category=None, sort=None):
         FROM issues
         JOIN categories ON issues.category_id = categories.id
     """
-
     params = []
 
-    # Filter by category
-    if category:
-        query += " WHERE categories.name = %s"
-        params.append(category)
+    if category_id is not None:
+        query += " WHERE issues.category_id = %s"
+        params.append(category_id)
 
-    # Sorting
     if sort == "latest":
         query += " ORDER BY issues.created_at DESC"
     else:
-        query += " ORDER BY issues.id DESC"  # default fallback
+        query += " ORDER BY issues.id DESC"
 
     cursor.execute(query, params)
     results = cursor.fetchall()
-
     cursor.close()
     con.close()
-
+    print(results)
     return results
 
 

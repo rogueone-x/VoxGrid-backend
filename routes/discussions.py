@@ -8,6 +8,7 @@ from models.discussion_model import (
 discussions_bp = Blueprint("discussions", __name__)
 
 
+@discussions_bp.route("", methods=["GET"])
 @discussions_bp.route("/", methods=["GET"])
 def fetch_discussions():
     issue_id = request.args.get("issue_id")
@@ -16,10 +17,11 @@ def fetch_discussions():
         return jsonify({"error": "issue_id is required"}), 400
 
     discussions = get_discussions_by_issue(issue_id)
-
+    print(discussions)
     return jsonify(discussions)
 
 
+@discussions_bp.route("", methods=["POST"])
 @discussions_bp.route("/", methods=["POST"])
 def add_discussion():
     data = request.json

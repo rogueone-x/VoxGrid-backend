@@ -4,9 +4,12 @@ from models.issue_model import create_issue, get_all_issues, get_issue_by_id
 issues_bp = Blueprint("issues", __name__)
 
 
+# ----------------------
+# Create a new issue
+# ----------------------
 @issues_bp.route("/", methods=["POST"])
 def add_issue():
-    data = request.json
+    data = request.get_json()
 
     title = data.get("title")
     summary = data.get("summary")
@@ -21,16 +24,24 @@ def add_issue():
     return jsonify({"message": "Issue created successfully", "issue_id": issue_id}), 201
 
 
-@issues_bp.route("/issues", methods=["POST"])
+# ----------------------
+# Fetch issues (optionally by category)
+# ----------------------
+@issues_bp.route("/", methods=["GET"])
 def fetch_issues():
-    category = request.args.get("category")
-    sort = request.args.get("sort")  # optional
+    # Get category_id as integer from query string
+    category_id = request.args.get("category", type=int)
+    sort = request.args.get("sort")  # optional: "latest"
 
-    issues = get_all_issues(category, sort)
+    issues = get_all_issues(category_id=category_id, sort=sort)
 
+    # Return as a flat array
     return jsonify(issues)
 
 
+# ----------------------
+# Fetch a single issue by ID
+# ----------------------
 @issues_bp.route("/<int:issue_id>", methods=["GET"])
 def fetch_issue(issue_id):
     issue = get_issue_by_id(issue_id)

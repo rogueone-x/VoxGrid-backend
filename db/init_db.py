@@ -118,6 +118,24 @@ CREATE TABLE IF NOT EXISTS votes (
 )
 """)
 
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS blogs (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+
+  issue_id INT,
+  user_id INT,
+
+  title VARCHAR(255),
+  content LONGTEXT,
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+  FOREIGN KEY (issue_id) REFERENCES issues(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+""")
+
 con.commit()
 cursor.close()
 con.close()

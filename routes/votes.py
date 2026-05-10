@@ -5,6 +5,7 @@ votes_bp = Blueprint("votes", __name__)
 
 
 # For discussions and comments
+@votes_bp.route("", methods=["POST"])
 @votes_bp.route("/", methods=["POST"])
 def vote():
     data = request.json

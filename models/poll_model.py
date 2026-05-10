@@ -108,3 +108,37 @@ def get_poll_results(poll_id):
     conn.close()
 
     return results
+
+
+def get_poll_by_id(poll_id):
+    con = db_connector()
+    cursor = con.cursor(dictionary=True)
+
+    query = "SELECT * FROM polls WHERE id = %s"
+
+    cursor.execute(query, (poll_id,))
+    poll = cursor.fetchone()
+
+    cursor.close()
+    con.close()
+
+    return poll
+
+
+def get_poll_options(poll_id):
+    con = db_connector()
+    cursor = con.cursor(dictionary=True)
+
+    query = """
+        SELECT *
+        FROM poll_options
+        WHERE poll_id = %s
+    """
+
+    cursor.execute(query, (poll_id,))
+    options = cursor.fetchall()
+
+    cursor.close()
+    con.close()
+
+    return options
